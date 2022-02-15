@@ -40,7 +40,7 @@
   4. Stage 2と同様に Stage 3, Stage 4を処理
       - 過程で、トークン数は$\frac{H}{16}\times\frac{W}{16}\rightarrow\frac{H}{32}\times\frac{W}{32}$になる。
 
-![Swin Transformer Architecture](../picture/swin_transformer_architecture.png)
+![Swin Transformer Architecture](picture/swin_transformer_architecture.png)
 
   - Swin Transformer Block (Figure 3の右側)
     - Window based Multihead Self-Attention (W-MSA)
@@ -53,7 +53,7 @@
       - W-MSA では、 Window 間の関係性をモデリングできない
       - Window を Shift することで、Window と Window の間の関係性を計算可能にする
       - 例）
-        - ![cyclic shift](./picture/Swin_Transofrmer_cyclic_shift.png)
+        - ![cyclic shift](picture/Swin_Transofrmer_cyclic_shift.png)
           - 一番左図だと $3\times3=9$ 個の Window ができる
           - しかし、特徴マップ自体を Shift （A,B,Cの部分を付け替え）し、$2\times2=4$ 個の Window として Attention を計算
           - 隣接しないパッチが存在する Window （複数 Window が混じっている Window ）は適宜 mask をかけて、隣接しない Window 間の attention を0にする

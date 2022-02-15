@@ -32,7 +32,7 @@
   - ミニバッチごとに正規化を行い、正規化パラメータを介して勾配をバックプロパゲーションする
     - 活性化ごとに2つのパラメータを追加するだけで、ネットワークの表現力を維持
 
-<img src="../picture/Batch Normalization.png" alt="ResNextメモ"  />
+<img src="picture/Batch Normalization.png"/>
 
 - ミニバッチにおける諸々
   - ミニバッチにおける損失の勾配は、学習データ全体における勾配の推定値→バッチサイズ大＝勾配の推定の品質大
@@ -51,7 +51,7 @@
   - 学習率を30倍にしたBN-x30では、ステップ数がもとの8.7%まで減少し正解率がBNなしよりも2%ポイント上昇
 
 
-![BN_speed_up](../picture/BN_speed_up.png)
+![BN_speed_up](picture/BN_speed_up.png)
 
 
 

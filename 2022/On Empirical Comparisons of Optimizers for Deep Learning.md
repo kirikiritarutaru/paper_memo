@@ -27,9 +27,9 @@
 - パラメータの探索範囲（上の段は探索範囲、下の段はプロット用の探索範囲）
 - $\varepsilon$や$\beta$も広い範囲を探索しないとだめっぽい
   - ResNet-32 on CIFAR-10
-    - ![ResNet-32 on CIFAR-10 searchspace](../picture/ResNet-32%20on%20CIFAR-10%20searchspace.png)
+    - ![ResNet-32 on CIFAR-10 searchspace](picture/ResNet-32%20on%20CIFAR-10%20searchspace.png)
   - ResNet-50 on ImageNet
-    - ![ResNet-50 on ImageNet search space](../picture/ResNet-50%20on%20ImageNet%20search%20space.png)
+    - ![ResNet-50 on ImageNet search space](picture/ResNet-50%20on%20ImageNet%20search%20space.png)
       - weight decay!?
       - TODO:fの正体、文字が微妙にことなるのはなぜ？
 

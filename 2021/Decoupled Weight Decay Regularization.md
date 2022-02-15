@@ -73,7 +73,7 @@
 - main contribution
   - 勾配ベースの更新から weight decay を切り離すことで、Adamの正則化を改善したこと
   - 包括的な分析により、$L_2$ 正則化よりもdecoupled weight decay （非結合型の重み減衰）を使うことでAdamの汎化性能が大幅に向上したことを示したこと
-  - ![AdamW algorithm](../picture/AdamW algorithm.png)
+  - ![AdamW algorithm](picture/AdamW algorithm.png)
 
 
 ## 主張の有効性の検証方法

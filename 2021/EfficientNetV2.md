@@ -48,10 +48,10 @@
   - 図中のSE：[Squeeze-and-Excitationモジュール ( SENet より )](https://openaccess.thecvf.com/content_cvpr_2018/papers/Hu_Squeeze-and-Excitation_Networks_CVPR_2018_paper.pdf)（←これ論文内で言及ないけどそんなありふれているか…？）
 
 
-![Fused-MBConv](../picture/Fused-MBConv.png)
+![Fused-MBConv](picture/Fused-MBConv.png)
 
 - Progressive learning について
-  - 学習をステージごとにわけてステージが進むごとに正則化を強くする![progressive learning example](../picture/progressive learning example.png)
+  - 学習をステージごとにわけてステージが進むごとに正則化を強くする![progressive learning example](picture/progressive learning example.png)
   - *正則化*とは？
     1. **Dropout**
        - ランダムにチャンネルをドロップすることで *co-adaptation* を抑える
@@ -65,7 +65,7 @@
   - アルゴリズムは以下の通り
     - （スタートとゴールの強度を決めて、ステージごとにだんだん正則化を強くかけていくという意味でしかないな…）
 
-![Progressive learning algorithm](../picture/Progressive%20learning%20algorithm.png)
+![Progressive learning algorithm](picture/Progressive%20learning%20algorithm.png)
 
 ## 主張の有効性の検証方法
 
@@ -88,7 +88,7 @@
 - [EfficientNetV1](https://arxiv.org/abs/1905.11946)
 
 - [SENet](https://openaccess.thecvf.com/content_cvpr_2018/papers/Hu_Squeeze-and-Excitation_Networks_CVPR_2018_paper.pdf)
-  - ![squeeze-and-Excitation block](../picture/squeeze-and-Excitation%20block.png)
+  - ![squeeze-and-Excitation block](picture/squeeze-and-Excitation_block.png)
   - [MobileNet(v1,v2,v3)を簡単に解説してみた](https://qiita.com/omiita/items/77dadd5a7b16a104df83)（チャネル方向のself-attentionとも言えるな！）
     1. 各チャネルの代表値をGlobal Average Pooling 2D でとる
     2. とった代表値を全結合層に入れて各チャネルの重みを計算

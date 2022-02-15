@@ -25,7 +25,7 @@
 
 ## 何をどう使ったのか
 - Grad-CAMの概念図（論文図２より引用）
-  - ![](../picture/GradCAMFigure2.png)
+  - ![](picture/GradCAMFigure2.png)
     - 大事なのは左半分
 - Grad-CAMのアルゴリズム
   1. まずは、画像を普通に分類
@@ -62,7 +62,7 @@
   - 前段畳み込み層ほど重要領域の位置が悪くなることがわかる
   - 前段の層は局所的な特徴に注目し、後段の層は空間情報を保持したまま高度な意味情報をうまく捉えられている
   - 論文Fig 14から引用（Tiger catって書いてるけど犬の間違いでは？？ミスってませんか？）
-    - <img src="../picture/gradcamFig14.png" alt="gradcamFig14" style="zoom:150%;" />
+    - <img src="picture/gradcamFig14.png" alt="gradcamFig14" style="zoom:150%;" />
 
 
 ## 批評
@@ -121,7 +121,6 @@
       grayscale_cam = grayscale_cam[0, :]
       visualization = show_cam_on_image(rgb_img, grayscale_cam, use_rgb=True)
       ```
-      
       
       
       

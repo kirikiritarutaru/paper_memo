@@ -30,12 +30,13 @@
     2. 畳み込み特徴マップ＋物体領域の候補を、ROI Pooling（入力を固定長に変換するアルゴリズム）により変換
     3. 2で得たベクトル4096の全結合層に2回通して、物体のクラス分類用と物体領域の回帰用の出力を得る
        - 物体領域の回帰用の出力は正確にいうと、「Anchor（後述）と画像中の物体の位置のズレの量」
-  - [MathWorksのドキュメント](https://jp.mathworks.com/help/vision/ug/getting-started-with-r-cnn-fast-r-cnn-and-faster-r-cnn.html)より引用<img src="../picture/Faster R-CNNの概要.png" alt="Faster R-CNNの概要" style="zoom:110%;" />
+  - [MathWorksのドキュメント](https://jp.mathworks.com/help/vision/ug/getting-started-with-r-cnn-fast-r-cnn-and-faster-r-cnn.html)より引用<img src="picture/Faster R-CNN_outline.png" alt="Faster R-CNNの概要" style="zoom:110%;" />
 
 - 本論文のコントリビューション
 
   - 領域提案ネットワーク（RPN）（の設計と学習方式）の提案
     - Fast R-CNNの中の領域提案アルゴリズムを領域提案ネットワーク（RPN）に置き換えることで2つの利点がある
+      - ![Faster R-CNN Figure 2](picture/Faster R-CNN Figure 2.png)
       - 前段の畳み込み層で算出した畳み込み特徴マップを、後段のRPNと共有することで領域提案にかかる計算をほぼノーコストで実行
       - RPNはFCN ([Fully Convolutional Network](https://arxiv.org/abs/1411.4038))の一種であり、E2Eに学習が可能
     - 領域提案に”アンカーボックス”という方式を導入している
@@ -77,7 +78,7 @@
           - 例：
             - Anchor boxes が各Anchorに9個作成される場合、一つのAnchorにつき$36(=9\times4)$個の数値の回帰タスク
           - 誤差関数：$L_1$ノルムベースの関数
-
+    
   - Faster R-CNNの学習方式の提案
     - (1)領域提案タスクの学習と(2)物体検出タスクの学習を交互に実行
       1. RPNの勾配更新

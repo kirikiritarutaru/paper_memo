@@ -19,7 +19,7 @@
   - 振動：目的関数の谷底に向かってガタガタに動くこと
 - Adamは勾配と勾配の二乗の指数移動平均を更新するよ
 
-![Adam Algprighm](../picture/Adam%20Algprighm.png)
+![Adam Algprighm](picture/Adam%20Algprighm.png)
 
 ## 主張の有効性の検証方法
 - ロジスティック回帰をMNISTやIMDBでトレーニングして、Adamでチューニングしたらめっちゃはやく精度↑

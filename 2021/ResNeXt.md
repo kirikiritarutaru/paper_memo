@@ -58,7 +58,7 @@
 - ResNet の bottleneck block と ResNeXt の block のパラメータ数の比較
 
   - 論文図1を引用
-  - <img src="../picture/ResNetのボトルネックブロックとResNeXtのブロック.png" alt="ResNetのボトルネックブロックとResNeXtのブロック" style="zoom: 150%;" />
+  - <img src="picture/resnet_bottleneck_nesnext_bottleneck.png" alt="ResNetのボトルネックブロックとResNeXtのブロック" style="zoom: 150%;" />
   - 条件
     - 入力 256 ch、出力 256 ch、Convのカーネルサイズ $3\times3$とする
   - ResNet の bottleneck blockのパラメータ数
