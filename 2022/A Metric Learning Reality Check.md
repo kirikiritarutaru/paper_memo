@@ -4,7 +4,7 @@
 - [Musgrave, K., Belongie, S., & Lim, S. N. (2020, August). A metric learning reality check. In *European Conference on Computer Vision* (pp. 681-699). Springer, Cham.](https://arxiv.org/pdf/2003.08505.pdf)
 
 ## 概要
-- 過去4年間に発表された**深層距離学習の各手法を再評価し、論文で報じられているほどのパフォーマンスの改善がなされていないこと**を実験的に示した論文
+- 2006年〜2019年の間に発表された**深層距離学習の各手法を再評価し、論文で報じられているほどのパフォーマンスの改善がなされていないこと**を実験的に示した論文
 
 ## 問題設定と解決したこと
 - 距離学習は、「類似のデータは近くに、非類似のデータは遠くにあるような埋め込み空間にデータをマッピングするもの」である
@@ -68,7 +68,6 @@
 
     - 上記欠点に対処するための学習・評価プロトコルの提案
         - 提案したプロトコルで実験した結果、**ほとんどの手法が同じような性能を示すこと**がわかった
-
 - 既存研究の欠点への指摘
     - 不公平な比較への指摘
         - ネットワークアーキテクチャが統一されていない問題
@@ -106,10 +105,25 @@
 
         - 多くの論文で、学習中に一定時間ごとにモデルのテストセット精度をチェックし、最も良いテストセット精度を報告してる
             - テストセットでパラメータチューニングしてるのと同じやんけ！
-
 - ”正しい”評価方法の提案
     - 距離学習のロス関数以外の手法選択・パラメータをすべて統一して評価
-    - ソースコード：[github.com/KevinMusgrave/powerful-benchmarker](https://github.com/KevinMusgrave/powerful-benchmarker)
+        - ソースコード：[github.com/KevinMusgrave/powerful-benchmarker](https://github.com/KevinMusgrave/powerful-benchmarker)
+    - ハイパラ探索
+        - ベイズ最適化を50回繰り返し実行。各iterationは4回クロスバリデーション（CV）
+        - 前半のクラスを学習用セット、後半のクラスをテスト用セットとして分割
+            - 学習セットは4つのCVに分割
+            - 訓練セットと検証セットは常にクラスが不一致となる
+        - ハイパラは平均のvalidation accuracyが最大になるように最適化
+        - 各トレーニング集合のCVに対する最高精度のチェックポイントがロードされ、テスト集合にたいする埋め込みが計算し、L2正規化される
+            - 2つの方法を用いて精度を算出
+                - 連結
+                    - テスト集合の各サンプルにたいして4つのモデルの128次元の埋め込みを連結して512次元の埋め込みを生成し、L2正規化
+                    - 埋め込み精度をレポート
+                - 分離
+                    - テストセットの各サンプルについて、128次元の埋め込み精度を別々に計算し、4種類の埋め込み精度を得る
+                    - それらの精度の平均値をレポート
+        - 最適なハイパラを用いて10回学習し、平均値と信頼区間を報告
+            - ランダムなシードノイズの影響をうけにくくなる
 - ”正しい”精度指標の提案
     - Mean Average Precision at R (MAP@R)
         - Mean Average PrecisionとR-precisionのアイデアの組み合わせ
@@ -117,16 +131,22 @@
             - $\text{MAP@R}=\frac{1}{R}\sum^R_{i=1}P(i)$
             - $P(i)= \text{precision at }i \text{, if the ith retrieval is correct} \text{ or }0 \text{ otherwise}$
 
-    - 
-
 
 ## 主張の有効性の検証方法
-- 
+- 13種類のロス関数と1種類の損失＋マイナーの組み合わせについて実験<img src="picture/A Metric Learning Reality Check Table 7.png" alt="A Metric Learning Reality Check Table 7" style="zoom:67%;" />
+- 3つの距離学習データセットで実験
+    - CUB200
+    - Cars196
+    - Stanford Online Products (SOP)
+
+- 結果：論文の記載（a）と違って、実験の結果（b）では精度の改善は見られない<img src="picture/A Metric Learning Reality Check Figure 2.png" alt="A Metric Learning Reality Check Figure 2" style="zoom: 50%;" />
 
 ## 批評
 - こういう追試したらおかしいことがわかったでって論文好き
+- なんで損失関数が異なるのに精度が同程度になるんでしょうね？
 - 目的関数以外の実験条件を統一しての比較だけど、目的関数が変わったらベターな最適化手法も変化するのでは？
     - 手法の組み合わせによってはパフォーマンスが改善されるかも？
+        - （Conclusionで言及されてたわ）
 - テストセットでチューニングした結果報告はギルティだが
 - 式（１）とか（２）で使ってる記号定義してや！$[]_+$ってやんやねん
     - 正にするって意味だろうけど
@@ -137,4 +157,4 @@
 
 
 ## 次に読むべき論文
-- 
+- *距離学習自体の大枠を知ることができる論文や書籍の調査*
