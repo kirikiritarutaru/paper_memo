@@ -19,10 +19,41 @@
 - この論文では、そのクールな要素を紹介するぜ！
 
 ## 何をどう使ったのか
-- 
+- Swin Transformerに加えられた工夫をResNetに追加し、ConvNeXtを構築
+    - 加えた工夫
+        - Macro Design
+            - stage ratio
+            - patchify stem
+
+        - ResNeXt
+            - depth conv
+            - width↑
+
+        - Inverted Bottleneck
+            - inverting dims
+
+        - Large Kernel
+            - move↑d.conv
+            - kernel sz.
+                - 5
+                - 7
+                - 9
+                - 11
+
+        - Micro Design
+            - ReLU→GELU
+            - fewer activations
+            - fewer norms
+            - BN→LN
+            - sep.d.s.conv
+
 
 ## 主張の有効性の検証方法
-- 
+- Swin Transformer に加えられた（Attention構造以外の）工夫をResNetにも追加
+    - ResNetに工夫を加えて構築した **ConvNeXt** は Swin Transformer よりも高い性能を発揮
+    - <img src="picture/ConvNets Figure2.png" alt="ConvNets Figure2" style="zoom:67%;" />
+        - 論文図2より引用：付け加えられた工夫と加えた時に達成した精度（ImageNet Top 1 Acc）を示している
+
 
 ## 批評
 - [機械学習チームで論文読み会を実施してみました（A ConvNet for the 2020s解説）](https://devblog.thebase.in/entry/2022/03/28/110000?utm_campaign=Weekly%20Kaggle%20News&utm_medium=email&utm_source=Revue%20newsletter)
@@ -33,6 +64,10 @@
 
 - はたして、DNNモデルの性能は比較可能なのか？
     - 学習手法の工夫の組み合わせと独立に議論できるのか？？
+- ImageNetのテストセットに対する過剰適合じゃないか？？
+    - 精度確認→工夫追加→精度確認→…のプロセスだし
+    - ConvNeXt だけがというよりもSwin-Tも含めて
+
 
 
 ## 次に読むべき論文
