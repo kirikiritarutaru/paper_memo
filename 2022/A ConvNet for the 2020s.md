@@ -4,7 +4,7 @@
 - [Liu, Z., Mao, H., Wu, C. Y., Feichtenhofer, C., Darrell, T., & Xie, S. (2022). A ConvNet for the 2020s. *arXiv preprint arXiv:2201.03545*.](https://arxiv.org/pdf/2201.03545.pdf)
 
 ## 概要
-- CNNの設計空間を再検討し、純粋なCNNが達成できることの限界をテストした
+- CNNの設計空間を再検討し、純粋なCNNが達成できる性能の限界をテスト
 - ResNetをViTの設計を参考に改良
   - その過程で、性能に寄与する要素を発見
   - Swin Transformerを超える性能を達成
@@ -22,33 +22,55 @@
 - この論文では、そのクールな要素を紹介するぜ！
 
 ## 何をどう使ったのか
+- ResNetをDeiTやSwin Transformerと同様の学習手順で学習。そのときの性能をベースラインとする
+    - 学習手順を変更するだけでも元のResNetよりも高精度を達成
+        - 76.1%→78.8% (+2.7%)
+            - **従来のConvNetsとViTの性能差のかなりの部分やんけ！**
+
+    - 学習手順 
+        - エポック数
+            - (90→)300
+
+        - 最適化手法
+            - AdamW optimizer
+
+        - データオーグメンテーション
+            - Mixup
+            - Cutmix
+            - rand
+
+        - 正則化スキーム
+            - Stochastic Depth
+            - Label Smoothing
+
+- ベースラインのResNetに下記工夫を加える
+    1.  マクロ設計
+    2.  ResNeXt
+    3.  逆ボトルネック
+    4.  大きなカーネルサイズ
+    5.  様々な層別ミクロ設計
+
+- 加えた工夫の詳細
+    - マクロ設計
+
+        - ステージの計算比率の変更
+
+            - 各ステージのブロック数の比率をSwin-Tと揃える
+                - オリジナルのResNet-50：（3, 4, 6, 3）→変更後のResNet-50：（3, 3, 9, 3）
+
+            - 78.8%→79.4% (+0.6%)
+
+        - ステムを"Patchify"に変更
+
+            - ネットワーク開始時の入力画像をダウンサンプリングする層に変更を追加
+                - カーネルサイズ$7\times7$、ストライド2による畳込み層＋マックスプーリング（←これで$\frac{1}{4}$倍にダウン）から
+                - カーネルサイズ$4\times4$、ストライド4によるの非重複畳み込みに変更
+
+            - 79.4%→79.5% (+0.1%)
+
+    - ResNeXt
+
 - Swin Transformerに加えられた工夫をResNetに追加し、ConvNeXtを構築
-    - 加えた工夫
-        - Macro Design
-            - stage ratio
-            - patchify stem
-
-        - ResNeXt
-            - depth conv
-            - width↑
-
-        - Inverted Bottleneck
-            - inverting dims
-
-        - Large Kernel
-            - move↑d.conv
-            - kernel sz.
-                - 5
-                - 7
-                - 9
-                - 11
-
-        - Micro Design
-            - ReLU→GELU
-            - fewer activations
-            - fewer norms
-            - BN→LN
-            - sep.d.s.conv
 
 
 ## 主張の有効性の検証方法
@@ -74,4 +96,5 @@
 
 
 ## 次に読むべき論文
-- 
+- Irwan Bello, William Fedus, Xianzhi Du, Ekin Dogus Cubuk, Aravind Srinivas, Tsung-Yi Lin, Jonathon Shlens, and Barret Zoph. Revisiting resnets: Improved training and scaling strategies. NeurIPS, 2021.
+- Ross Wightman, Hugo Touvron, and Hervé Jégou. Resnet strikes back: An improved training procedure in timm. arXiv:2110.00476, 2021.
