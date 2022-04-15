@@ -22,6 +22,10 @@
 - この論文では、そのクールな要素を紹介するぜ！
 
 ## 何をどう使ったのか
+- Swin Transformer に加えられた（Attention構造以外の）工夫をResNetにも追加
+    - ResNetに工夫を加えて構築した **ConvNeXt** は Swin Transformer よりも高い性能を発揮
+    - <img src="picture/ConvNets Figure2.png" alt="ConvNets Figure2" style="zoom:67%;" />
+        - 論文図2より引用：付け加えられた工夫と加えた時に達成した精度（ImageNet Top 1 Acc）を示している
 - ResNetをDeiTやSwin Transformerと同様の学習手順で学習。そのときの性能をベースラインとする
     - 学習手順を変更するだけでも元のResNetよりも高精度を達成
         - 76.1%→78.8% (+2.7%)
@@ -123,27 +127,76 @@
 
 
 ## 主張の有効性の検証方法
-- Swin Transformer に加えられた（Attention構造以外の）工夫をResNetにも追加
-    - ResNetに工夫を加えて構築した **ConvNeXt** は Swin Transformer よりも高い性能を発揮
-    - <img src="picture/ConvNets Figure2.png" alt="ConvNets Figure2" style="zoom:67%;" />
-        - 論文図2より引用：付け加えられた工夫と加えた時に達成した精度（ImageNet Top 1 Acc）を示している
+- ImageNetによりConvNeXtの精度の実験的評価
+
+    - Swin-T/S/B/Lと同等のFLOPsをもつConvNeXt T/S/B/Lを構築し、精度を比較
+        - バリエーションの違いは、チャンネル数と各ステージにおけるブロック数が異なるだけ
+
+    - ConvNeXtのスケーラビリティを検証するため、より大規模なConvNeXt-XLを構築
+
+- ImageNet-1K
+
+    - 1000のオブジェクトクラスと120万枚の学習画像から構成されている
+    - 検証データセットにおけるトップ1精度をレポートする
+    - 学習セットアップは以下の通り<img src="picture/ConvNets Figure5.png" alt="ConvNets Figure5" style="zoom: 50%;" />
+        - Exponential Mobing Average (EMA)がタイ規模なモデルの過剰適合を緩和することがわかったのでこれを使用
+
+- 結果：
+    - ConvNeXtは、同程度のFLOPsを持つSwin-Tよりも高いトップ1精度を達成
+
+- ImageNet-22K
+
+    - 大規模な事前学習を行った場合、ViTがつよつよという見解が広まっている
+    - ConvNeXtでもImageNet-22Kで事前学習を行い、対よろする
+    - 結果：
+        - ConvNeXtが勝ち卍
+
+- 物体認識とかセマンティックセグメンテーションのバックボーンにConvNeXtを使ってもSwin-Tよりよいことがわかったやで
 
 
 ## 批評
 - [機械学習チームで論文読み会を実施してみました（A ConvNet for the 2020s解説）](https://devblog.thebase.in/entry/2022/03/28/110000?utm_campaign=Weekly%20Kaggle%20News&utm_medium=email&utm_source=Revue%20newsletter)
     - ConvNetの論文についての要約
+
 - やっぱり結論としてAttentionというアーキテクチャではなくて、学習手法の工夫のほうが精度向上に寄与しているという結果になったという報告
     - ShiftViTの論文でも同様の結論
+
 - はたして、DNNモデルの性能は比較可能なのか？
     - 学習手法の工夫の組み合わせと独立に議論できるのか？？
+
 - ImageNetのテストセットに対する過剰適合じゃないか？？
     - 精度確認→工夫追加→精度確認→…のプロセスだし
     - ConvNeXt だけがというよりもSwin-Tも含めて
+
 - カーネルサイズの変更とReLU→GELUの変更精度変わらなんのになんで採用するんや…？
+
 - TransformerとSwin Transformerの設計した人どうやってこの組み合わせ見つけれたん
     - 計算力の暴力か？
 
+- Swin-Tとばっか比較してんな
+
+    - Swin-Tの精度に貢献するポイントがAttentionだけじゃないと主張するためやけど、精度推しまくるならもっとほかのネットワークとも比較すべきでは
+    - Conv系のネットワークと比較して、ConvNeXtがなぜ勝ったのか負けたのかの考察とか要りそう
+
+- 4章のRemaks on model efficiency. の最後↓はえー
+
+    >   vanilla ViTと比較すると、ConvNeXtとSwin Transformerはいずれも局所計算により、より有利な精度-FLOPsのトレードオフを示します。この効率の向上は、ConvNetの帰納的バイアスの結果であり、Vision Transformerの自己注意メカニズムとは直接関係ないことは注目に値します。
+
+- Appendix F
+
+    - ええこというてますやんか
+
+        - >   我々は、アーキテクチャの選択は、シンプルさを追求しながらも、タスクの必要性を満たすべきであると考えている
+
+    - ConvNeXtは画像認識・物体認識・セマンティックセグメンテーションではよかったけど、他のビジョンタスクだとTransormer系のほうがいいかもしれませんよという文脈ですね
+
+        - ”画像認識”というタスク（のもつ特徴とか前提）に合わせてアーキテクチャを模索すべし
+
+
 
 ## 次に読むべき論文
-- Irwan Bello, William Fedus, Xianzhi Du, Ekin Dogus Cubuk, Aravind Srinivas, Tsung-Yi Lin, Jonathon Shlens, and Barret Zoph. Revisiting resnets: Improved training and scaling strategies. NeurIPS, 2021.
-- Ross Wightman, Hugo Touvron, and Hervé Jégou. Resnet strikes back: An improved training procedure in timm. arXiv:2110.00476, 2021.
+- 学習テクニックと工夫するとResNet-50の性能を向上することができますよ論文
+    - [Irwan Bello, William Fedus, Xianzhi Du, Ekin Dogus Cubuk, Aravind Srinivas, Tsung-Yi Lin, Jonathon Shlens, and Barret Zoph. Revisiting resnets: Improved training and scaling strategies. NeurIPS, 2021.](https://arxiv.org/pdf/2103.07579.pdf)
+    - [Ross Wightman, Hugo Touvron, and Hervé Jégou. Resnet strikes back: An improved training procedure in timm. arXiv:2110.00476, 2021.](https://arxiv.org/pdf/2110.00476.pdf)
+- Attention機構とConv系のネットワークを組み合わせよう論文
+    - [Irwan Bello, Barret Zoph, Ashish Vaswani, Jonathon Shlens, and Quoc V Le. Attention augmented convolutional networks. In ICCV, 2019.](https://arxiv.org/pdf/1904.09925.pdf)
