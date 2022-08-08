@@ -56,12 +56,10 @@
 - 提案手法 **HiPPO** (high-order polynomial projection operators) 
     - 任意の関数を与えられた尺度に関して直交多項式空間に射影する演算子
         - 尺度：過去における各時刻のデータの重要度
-
 - 入力関数$f(t) : \mathbb{R}_+ \rightarrow \mathbb{R}$が与えられたとき、逐次的に入ってくる入力を理解し、将来の予測を行うために、時刻$t\ge 0$ ごとに累積history $f_{\le t}:= f(x)|_{x\le t}$ を操作することが必要
     - 関数空間は非常に大きいので、historyを完全に記憶することができない→圧縮する
     - historyを有界次元の部分空間に射影する
     - しかも、圧縮したhistory の表現をオンラインで更新していく
-
 - HiPPOの数学面の構成要素
     1.  測度に関する関数近似
         -   近似の質を評価するために、関数空間における距離を定義する必要がある
@@ -86,6 +84,57 @@
         -   解きたい課題としては、
             -   $\mu^{(t)}$が与えられたときにいかにして閉じられた形で、（与えられた関数と近似する関数の距離を最小化する）最適化問題をとくか
             -   $t\rightarrow \infty$のときに、基底の係数をオンラインで維持するか
+
+### HiPPOの定式化
+
+-   **[定義 1]**
+    -   時間 $t$ に伴って変化する $(-\infty, t]$ 上の測度族を $\mu^{(t)}$ 、多項式関数の$N$次元部分空間を $\mathcal{g}$ 、連続関数  $f:\mathbb{R}_{\ge0}\rightarrow \mathbb{R}$ とする。このとき、*HiPPO* は時間$t$ごとに射影演算子 $\text{proj}_t$ と係数抽出演算子 $\text{coef}_t$ を定義し、それらは以下の性質を持つ。
+        1.   $\text{proj}_t$ は、関数 $f$ を時間 $t$ までに制限した関数 $f_{\le t}:=f(x)|_{x\le t}$ をとり、$f_{\le t}$ を近似誤差 $\| f_{\le t} - g^{(t)} \|_{L_2 (\mu^{(t)})}$ が最小になる多項式 $g^{(t)}\in \mathcal{g}$ に写像する。
+        2.   $\text{coef}_t: \mathcal{g}\rightarrow \mathbb{R}^N$ は、多項式関数 $g^{(t)}$ を測度 $\mu^{(t)}$ に関して定義される直交多項式の基底の 係数 $c(t)\in \mathbb{R}^N$ に写像する。
+    -   演算子の合成 $\text{coef}\circ \text{proj}$ を*hippo*とよび、この演算子は 関数 $f: \mathbb{R}_{\ge0}\rightarrow \mathbb{R}$ を最適な射影係数 $c:\mathbb{R}_{\ge0}\rightarrow \mathbb{R}^N$ に写像する。すなわち、$(\text{hippo}(f))(t)=\text{coef}_t(\text{proj}_t (f))$ である。
+-   ![HiPPO_Fig_1](picture/HiPPO_Fig_1.png)
+    -   各時間 $t$ について最適射影 $\text{proj}_t(f)$ は内積によってよく定義されるが、素朴に計算するのは困難
+    -   係数関数 $c(t)=\text{coef}_t(\text{proj}_t(f))$ は、ある$A(t)\in \mathbb{R}^{N\times N}$と$B(t)\in \mathbb{R}^{N\times 1}$に対して $\frac{d}{dt}c(t)=A(t)c(t)+B(t)f(t)$ を満たすODE（常微分方程式）形式であることを付録Dに記載している。
+    -   このODEを解く（離散的な漸化式を解く）ことにより、$c(t)$ をオンラインで簡単に求めることができる
+        -   逆順に考えるとなんで時間に伴って変化する測度と多項式近似を使ってるのかわかりよい
+            -   時間に伴って変化する測度は近似の品質を操作したいから、直近の過去を重要視したいという要望に答えるため
+            -   測度に関する内積を定義→ヒルベルト空間を考えるのは線型結合の係数の導出が簡単だから
+            -   **(4)の漸化式の形にしたいから、多項式関数を使った近似を選択している**
+                -   付録C.3の式(20)を見るとわかりやすい。
+                -   （$n$次の多項式）×（重み関数=時間と共に変化する測度）の形の積分の微分
+                    →$n-1$ 次の多項式 + $N-1$次の多項式の形になる
+                    →漸化式の形になる
+                    -   [注意]まだふわっとした理解になってるぞ！
+    -   HiPPO 演算子は離散化すると実数列を受け取り、$N$次元ベクトルを返す
+
+### 時間発展する測度と（それと対応する）HiPPO ODEsの例
+
+-   様々な測度の例
+
+    -   *The translated Legendre (LegT) measures*
+
+        -   $[t-\theta, t]$ に一様な重みを割り当てる測度
+            -   $\theta$ はスライディングウィンドウの長さ（要約される history の長さ）を表すハイパーパラメータ
+        -   $\text{LegT}: \mu^{(t)}=\frac{1}{\theta}\mathbb{1}_{[t-\theta, t]}(x)$
+
+    -   *The translated Lagueerre (LagT) measures*
+
+        -   $(-\infty, t]$に指数関数的に減衰する重みを割り当てる測度
+
+            -   最近の history を重視する
+
+        -   $$
+            \begin{eqnarray*}
+            \text{LagT}: \mu^{(t)}
+            &=& e^{-(t-x)}\mathbb{1}_{(-\infty, t]}(x) \\
+            &=& \begin{cases}
+            e^{x-t}& \text{if}\quad x\leq t \\
+            0& \text{if}\quad x>t
+            \end{cases}
+            \end{eqnarray*}
+            $$
+
+-   **[定理 1]**
 
 
 ## 主張の有効性の検証方法
