@@ -35,7 +35,7 @@
         - gradientsの消失
 
     - RNNの課題を克服するヒューリスティックな方法として、以下が挙げられている
-        - LSTM、GPU、ユーリエ再帰ユニット、ルジャンドルメモリユニット（LMU）
+        - LSTM、GRU、フーリエ再帰ユニット、ルジャンドルメモリユニット（LMU）
 
     - それでもまだ残る課題
         - gradients の消失
@@ -115,26 +115,56 @@
 
         -   $[t-\theta, t]$ に一様な重みを割り当てる測度
             -   $\theta$ はスライディングウィンドウの長さ（要約される history の長さ）を表すハイパーパラメータ
-        -   $\text{LegT}: \mu^{(t)}=\frac{1}{\theta}\mathbb{1}_{[t-\theta, t]}(x)$
+            -   ※なんで*translated*なのか？
+                -   ルジャンドル多項式は$[-1,1]$の範囲で定義される関数。これを$[t-\theta,t]$の範囲に変換しているということ
+        -   $$
+            \text{LegT}: \mu^{(t)}=\frac{1}{\theta}\mathbb{1}_{[t-\theta, t]}(x)
+            $$
 
-    -   *The translated Lagueerre (LagT) measures*
+            
+
+    -   *The translated Laguerre (LagT) measures*
 
         -   $(-\infty, t]$に指数関数的に減衰する重みを割り当てる測度
 
             -   最近の history を重視する
 
         -   $$
-            \begin{eqnarray*}
             \text{LagT}: \mu^{(t)}
             &=& e^{-(t-x)}\mathbb{1}_{(-\infty, t]}(x) \\
             &=& \begin{cases}
             e^{x-t}& \text{if}\quad x\leq t \\
             0& \text{if}\quad x>t
             \end{cases}
-            \end{eqnarray*}
             $$
 
 -   **[定理 1]**
+
+    -   LegTとLagTについて、定義1をみたす HiPPO 演算子は、$\frac{d}{dt}c(t)=-Ac(t)+B(t)$ where $A \in \mathbb{R}^{N\times N}, B\in\mathbb{R}^{N\times 1}$ の形の線形時不変 (linear time-invariant : LTI)常微分方程式 (ODEs) で与えられる。
+
+
+$$
+\text{LegT}:&\\
+A_{nk} &= \frac{1}{\theta} \begin{cases}
+(-1)^{n-k}(2n+1) & \text{if}\quad n\geq k \\
+2n+1 & \text{if}\quad n\leq k
+\end{cases}\ , \quad
+B_n = \frac{1}{\theta}(2n+1)(-1)^n
+$$
+
+$$
+\text{LagT:} & \\
+A_{nk} &= \begin{cases}
+1 & \text{if}\quad n\geq k \\
+0 & \text{if}\quad n\leq k
+\end{cases}\ , \quad
+B_n = 1
+$$
+
+-   [TODO]
+    -   ルジャンドル多項式の性質についてまとめる
+    -   P.27 D.1 Coefficient Dynamics の数式を追う
+        -   HiPPO/S4解説の32~41ページも参考になるやで
 
 
 ## 主張の有効性の検証方法
