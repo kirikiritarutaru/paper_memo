@@ -1,4 +1,4 @@
-# Beyond BatchNorm: Towards a Unified Understanding of Normalization in Deep Learning
+# Beyond BatchNorm Towards a Unified Understanding of Normalization in Deep Learning
 
 ## 論文について (掲載ジャーナルなど)
 - [Lubana, E., Dick, R., & Tanaka, H. (2021). Beyond BatchNorm: Towards a Unified Understanding of  Normalization in Deep Learning. *Advances in Neural Information Processing Systems*, *34*.](https://proceedings.neurips.cc/paper/2021/file/2578eb9cdf020730f77793e8b58e165a-Paper.pdf)
