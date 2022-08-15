@@ -67,9 +67,9 @@
             -   内積から誘導されるノルムも自然に定まる
 
     2.  多項式基底展開
-        -   関数空間の任意の$N$次元部分空間$\mathcal{g}$は、近似のための適切な候補
-        -   パラメータ$N$は近似の次数＝圧縮の大きさに相当し、投影されたhistoryは$\mathcal{g}$の任意の基底における展開の$N$個の係数で表すことができる
-        -   本論文では、$\mathcal{g}$が$N$未満の次数の多項式の集合であるように、自然基底として多項式を用いる
+        -   関数空間の任意の$N$次元部分空間$\mathcal{G}$は、近似のための適切な候補
+        -   パラメータ$N$は近似の次数＝圧縮の大きさに相当し、投影されたhistoryは$\mathcal{G}$の任意の基底における展開の$N$個の係数で表すことができる
+        -   本論文では、$\mathcal{G}$が$N$未満の次数の多項式の集合であるように、自然基底として多項式を用いる
 
     3.  オンライン近似
         -   時間$t$ごとに$f_{\le t}$を近似することに関心があるので、測度も時間によって変化させる
@@ -88,9 +88,9 @@
 ### HiPPOの定式化
 
 -   **[定義 1]**
-    -   時間 $t$ に伴って変化する $(-\infty, t]$ 上の測度族を $\mu^{(t)}$ 、多項式関数の$N$次元部分空間を $\mathcal{g}$ 、連続関数  $f:\mathbb{R}_{\ge0}\rightarrow \mathbb{R}$ とする。このとき、*HiPPO* は時間$t$ごとに射影演算子 $\text{proj}_t$ と係数抽出演算子 $\text{coef}_t$ を定義し、それらは以下の性質を持つ。
-        1.   $\text{proj}_t$ は、関数 $f$ を時間 $t$ までに制限した関数 $f_{\le t}:=f(x)|_{x\le t}$ をとり、$f_{\le t}$ を近似誤差 $\| f_{\le t} - g^{(t)} \|_{L_2 (\mu^{(t)})}$ が最小になる多項式 $g^{(t)}\in \mathcal{g}$ に写像する。
-        2.   $\text{coef}_t: \mathcal{g}\rightarrow \mathbb{R}^N$ は、多項式関数 $g^{(t)}$ を測度 $\mu^{(t)}$ に関して定義される直交多項式の基底の 係数 $c(t)\in \mathbb{R}^N$ に写像する。
+    -   時間 $t$ に伴って変化する $(-\infty, t]$ 上の測度族を $\mu^{(t)}$ 、多項式関数の$N$次元部分空間を $\mathcal{G}$ 、連続関数  $f:\mathbb{R}_{\ge0}\rightarrow \mathbb{R}$ とする。このとき、*HiPPO* は時間$t$ごとに射影演算子 $\text{proj}_t$ と係数抽出演算子 $\text{coef}_t$ を定義し、それらは以下の性質を持つ。
+        1.   $\text{proj}_t$ は、関数 $f$ を時間 $t$ までに制限した関数 $f_{\le t}:=f(x)|_{x\le t}$ をとり、$f_{\le t}$ を近似誤差 $\| f_{\le t} - g^{(t)} \|_{L_2 (\mu^{(t)})}$ が最小になる多項式 $g^{(t)}\in \mathcal{G}$ に写像する。
+        2.   $\text{coef}_t: \mathcal{G}\rightarrow \mathbb{R}^N$ は、多項式関数 $g^{(t)}$ を測度 $\mu^{(t)}$ に関して定義される直交多項式の基底の 係数 $c(t)\in \mathbb{R}^N$ に写像する。
     -   演算子の合成 $\text{coef}\circ \text{proj}$ を*hippo*とよび、この演算子は 関数 $f: \mathbb{R}_{\ge0}\rightarrow \mathbb{R}$ を最適な射影係数 $c:\mathbb{R}_{\ge0}\rightarrow \mathbb{R}^N$ に写像する。すなわち、$(\text{hippo}(f))(t)=\text{coef}_t(\text{proj}_t (f))$ である。
 -   ![HiPPO_Fig_1](picture/HiPPO_Fig_1.png)
     -   各時間 $t$ について最適射影 $\text{proj}_t(f)$ は内積によってよく定義されるが、素朴に計算するのは困難
