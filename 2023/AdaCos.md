@@ -73,8 +73,62 @@
 
 ## 何をどう使ったのか
 - 本論文では、スケールパラメータ$s$ を自動的に調整することに焦点を当てる
+
 - AdaCos
     - 学習サンプルと対応するクラス中心ベクトル（ソフトマックス前の完全連結ベクトル）のコサイン類似度を動的にスケーリングし、その予測クラス確率をコサイン類似度の意味するところに合致させることが可能
+
+- AdaCosの思想
+
+    - スケールパラメータ$s$を調整することで、クラス予測確率$P_{i,y_i}$の”曲率”を圧縮/伸張する
+
+        - ”いい感じ”のところにクラス予測確率が変化する場所を持ってくる
+
+        - $$
+            P_{i,j} = \frac{e^{\bar{s}\cdot\cos\theta_{i,j}}}{\sum^C_{k=1}e^{\bar{s}\cdot\cos\theta_{i,k}}}
+            $$
+
+            -   ここで$\bar{s}$は自動で調整されたスケールパラメータ
+
+    - Qどうやって$\bar{s}$をみつける？→A微分ですね！
+
+        - 予測確率$P_{i,y_i}$が$\theta_{i,y_i}$に対して大きく変化するような適切なスケール$\bar{s}$を見つけたい
+
+        - 絶対勾配値$\left\|\frac{\partial P_{i,y_i}(\theta)}{\partial\theta}\right\|$が最大になる角度を見つけたい
+
+        - それは、二階微分が0になるような角度デス
+
+        - $$
+            \frac{\partial^2P_{i,y_i}(\theta_0)}{\partial\theta_0^2}=0
+            $$
+
+            -   ここで、$\theta_0\in[0,\frac{\pi}{2}]$
+
+    - $P(\theta_0)$が$\frac{1}{2}$に近いとすると、スケールパラメータ$s$と点$(\theta_0,P(\theta_0))$の関係は次のように近似できる
+
+    - $$
+        s_0=\frac{\log B_i}{\cos\theta_0}
+        $$
+
+        - ここで、学習時に角度$\theta_{i,k}$が$\frac{\pi}{2}$付近に分布するため、$B_i=\sum_{k\not=y_i}e^{s\cdot\cos\theta_{i,k}}\approx C-1$とよく近似できる
+        - $\bar{s}$を自動決定する作業は$[0,\frac{\pi}{2}]$における妥当な中心角$\tilde{\theta}$を決定する作業になる
+
+    - *Automatically choosing a fixed scale parameter*
+
+        - $\frac{\pi}{4}$は$[0,\frac{\pi}{2}]$の中心にあるので、$\theta_0=\frac{\pi}{4}$をとして、角度$\theta_{i,y_i}$からクラス予測確率$P_{i,y_i}$への有効な写像を考えることができる
+
+        - 対応するスケールパラメータ$s_f$を次のように推定することができる
+
+        - $$
+            \bar{s}_f=\frac{\log B_i}{\cos\frac{\pi}{4}} = \frac{\log\sum_{k\not=y_i}e^{s\cdot\cos\theta_{i,k}}}{\cos\frac{\pi}{4}}\approx\sqrt{2}\cdot\log(C-1)
+            $$
+
+            
+
+        - **注記**：
+
+            - 実装をみるとスケールパラメータは上の式で自動決定で残ったマージンパラメータは$m=0.50$をデフォルトとして設定されてるっぽい
+            - 参考：[4uiiurz1/pytorch-adacos](https://github.com/4uiiurz1/pytorch-adacos)
+
 
 
 ## 主張の有効性の検証方法
