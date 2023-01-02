@@ -170,6 +170,34 @@
                 $$
 
                 - ここで、$B^{(t)}_{\text{avg}}$ は動的適応スケールパラメータに関係してくる
+        
+        - $t$番目にイテレーションにおける動的適応スケールパラメータは次のように定式化できる
+        
+        - $$
+            \tilde{s}_d^{(t)}= 
+            \begin{cases}
+            \sqrt{2} \cdot \log (C-1) & t=0, \\ 
+            \frac{\log B_{\text {avg }}^{(t)}}{\cos \left(\min \left(\frac{\pi}{4}, \theta_{\text {med }}^{(t)}\right)\right)} & t \geq 1,
+            \end{cases}
+            $$
+        
+            -   ここで、$\tilde{s}^{(0)}_d$ は$t=0$のときの固定スケールパラメータ$\tilde{s}_f$ で初期化する
+        
+        - （代入してゴチャゴチャ計算すると、）対応する勾配は以下のように計算される
+        
+        - $$
+            \begin{cases}
+            \frac{\partial \mathcal{L}\left(\vec{x}_i\right)}{\partial \vec{x}_i}=\sum_{j=1}^C\left(P_{i, j}^{(t)}-\mathbb{1}\left(y_i=j\right)\right) \cdot \tilde{s}_d^{(t)} \frac{\partial \cos \theta_{i, j}}{\partial \vec{x}_i} ,\\
+            \frac{\partial \mathcal{L}\left(\vec{W}_j\right)}{\partial \vec{W}_j}=\left(P_{i, j}^{(t)}-\mathbb{1}\left(y_i=j\right)\right) \cdot \tilde{s}_d^{(t)} \frac{\partial \cos \theta_{i, j}}{\partial \vec{W}_j},
+            \end{cases}
+            $$
+        
+            - ここで、$\mathbb{1}$ は指示関数で$P^{(t)}_{i,j}$は、
+                $$
+                P_{i, j}^{(t)}=\frac{e^{\tilde{s}_d^{(t)} \cdot \cos \theta_{i, j}}}{\sum_{k=1}^C e^{\tilde{s}_d^{(t)} \cdot \cos \theta_{i, k}}}
+                $$
+        
+            - 
 
 
 
