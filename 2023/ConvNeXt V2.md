@@ -73,6 +73,15 @@
     - 損失はマスクされた部分でのみ計算
 
 ### Global Response Normalization layer (GRN)
+- 特徴の崩壊
+  - FCMAEで事前学習されたConvNeXtベースのモデルのactivationを観察すると特徴が崩壊している現象を発見した
+  - <img src="picture/スクリーンショット 2023-05-24 223901.png" alt="Figure 4. Feature cosine distance analysis" style="zoom:30%;" />
+  - ConvNeXt V1では特徴の多様性がなくなっていることがわかる
+  - クロスエントロピー損失を用いることで、クラス判別のための特徴量に集中し、それ以外の特徴量が抑制されているためであると考えられる
+- GRNのアルゴリズム
+  - <img src="picture/ConvNeXt_V2_Algorithm_1.png" alt="Algorithm 1. GRN" style="zoom:40%;" />
+- GRNを導入したConvNeXt V2 のブロック
+    - <img src="picture/ConvNeXt_V2_FIgure_5.png" alt="Figure 5. ConvNeXt Block Designs" style="zoom:30%;" />
 
 
 ## 主張の有効性の検証方法
