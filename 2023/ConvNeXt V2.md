@@ -79,7 +79,17 @@
   - ConvNeXt V1では特徴の多様性がなくなっていることがわかる
   - クロスエントロピー損失を用いることで、クラス判別のための特徴量に集中し、それ以外の特徴量が抑制されているためであると考えられる
 - GRNのアルゴリズム
-  - <img src="picture/ConvNeXt_V2_Algorithm_1.png" alt="Algorithm 1. GRN" style="zoom:40%;" />
+  1. 大域特徴の集約
+  2. 特徴の正規化
+  3. 特徴のキャリブレーション
+  - $$X_i = \gamma*X_i *\mathcal{N}(\mathcal{G}(X)_i)+\beta + X_i$$
+    - $\gamma$ と $\beta$ は学習可能なパラメータ
+    - $X_i$ は $i$ 番目の特徴マップ
+    - $\mathcal{G}(X)_i$ は$i$番目のチャネルの統計値を集約したスカラー
+    - $\mathcl{N}$ は、$i$番目のチャネルの他のすべてのチャネルと比較して相対的な重要度を計算する応答正規化関数
+  - 疑似アルゴリズム
+    - <img src="picture/ConvNeXt_V2_Algorithm_1.png" alt="Algorithm 1. GRN" style="zoom:40%;" />
+
 - GRNを導入したConvNeXt V2 のブロック
     - <img src="picture/ConvNeXt_V2_FIgure_5.png" alt="Figure 5. ConvNeXt Block Designs" style="zoom:30%;" />
 
