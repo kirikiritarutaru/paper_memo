@@ -53,10 +53,28 @@
     - Network Modifications for Time Series
       - Positional Encoding
         - Vannila Positional Encoding
+          - 時系列からある程度の位置情報を抽出することはできるが、重要な特徴を完全に利用することはできない
         - Learnable Positional Encoding
+          - 時系列データから適切な positional encoding を学習することが効果的で、特定のタスクによくマッチする
+            - [意見] ↑出典書け
         - Timestamp Encoding
+          - カレンダータイムスタンプ（秒、分、時、週、月、年など）や特別なタイムスタンプ（祝日やイベントなど）は実アプリケーションではめっちゃ有効
+            - あたりまえだよなぁ！
+          - なのに、バニラ Transformer ではほとんど活用されない
+            - もったいない
+          - タイムスタンプ encoding の方法は、Autoformer や FEDformer で用いられている
       - Attention Module
+        - アテンションモジュールは、「入力パターンのペア同士の類似度に基づいて動的に重みを変更する完全連結層」とみなせる
+          - 利点：長期的な依存関係をモデル化するのに適している
+            - （LSTMやRNNと比較して長期的なだけで、入力系列長が万ぐらいのオーダーになれば普通に無理だけどね）
+          - 欠点：時間・メモリ複雑度が$O(N^2)$ （$N$ は系列長）←計算上ボトルネックになる
+        - 欠点を解消しようとする工夫
+          1. LogTrans, Pyraformer のようにアテンション機構に疎なバイアスを追加する方法
+          2. Informer, FEDformer のように自己注意行列の低ランク特性を見つけて計算を高速化する方法
       - Architecture-based Attention Innovation
+        - アテンションモジュール自体に対する工夫
+          - Informer：アテンションモジュール間にストライド2のマックスプーリング層を挟んで、系列長を半分にダウンサンプリング
+          - Pyraformer：C-ary tree ベースのアテンション機構を設計し、細かいスケールのノードは元の時系列に対応、粗いスケールのノードはより低い解像度の時系列に対応。異なる解像度にまたがる時間的依存性をよくとらえられる
     - Applications of Time Series Transformers
       - 時系列予測
       - 異常検知
