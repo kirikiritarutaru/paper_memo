@@ -41,19 +41,19 @@
         - 画像の各注目オブジェクト（例：個々の人物の分割）を検出し、区切ること
 
 - 以下の10+1パターンにわけてDLを用いたセグメンテーションモデルを分類した
-    1.   Fully convolutional networks 
-    2.   Convolutional models with graphical models 
+    1.   Fully convolutional networks
+    2.   Convolutional models with graphical models
     3.   Encoder-decoder based models
-    4.   Multi-scale and pyramid network based models 
-    5.   R-CNN based models (for instance segmentation) 
-    6.   Dilated convolutional models and DeepLab family 
+    4.   Multi-scale and pyramid network based models
+    5.   R-CNN based models (for instance segmentation)
+    6.   Dilated convolutional models and DeepLab family
     7.   Recurrent neural network based models
-    8.   Attention-based models 
-    9.   Generative models and adversarial training 
-    10.   Convolutional models with active contour models 
+    8.   Attention-based models
+    9.   Generative models and adversarial training
+    10.   Convolutional models with active contour models
     11.   Other models
 
--   ネットワークアーキテクチャの概観
+-   ネットワークアーキテクチャの概観（[意見]はっきりいってこの章は自分にとって得るもの無し）
     1.  CNN
         -   特にコンピュータビジョンタスクで最も成功していると行ってもいいアーキテクチャ
         -   CNNアーキテクチャの概要
@@ -78,9 +78,17 @@
             -   生成器：事前分布を持つノイズから「本物」に類似したターゲット分布へのマッピングを学習
             -   識別器：生成されたサンプル「偽物」から「本物」を区別しようとする
         -   [意見] 学習が難しい。生成されたものの評価が難しい。最近（2023年）は、Diffusion Modelに話題を取られがち。
+
 -   DLモデルの概観
     1.  Fully Convolutional Networks
+        - 畳み込み層（＋スキップ接続）だけをつかってネットワーク作ってみたよ！でも課題が多いよ！
+          - pros: E2Eで任意のサイズの画像を取り込んで同じサイズのセグメンテーションマップを作れる
+          - cons: 推論が重い。効率的な方法でグローバルコンテキスト情報をつかえない。3D画像に拡張しずらい。
     2.  Convolutional Models with Graphical Models
+        - FCNだと意味的コンテキストを無視してるからグラフィカルモデル組み込んで”意味的”セグメンテーションしてみたよ！
+            - pros: FCNよりも画像のコンテキスト情報を考慮にいれてセグメンテーションできるよ！物体を細かく切り抜けるよ！
+            - cons: アルゴリズムによっては反復して学習させないとダメだよ！計算が重いよ！
+              - [意見] ぶっちゃけ2023年現在これ系のモデルは流行ってないように感じるよ
     3.  Encoder-Decoder based Models
     4.  Multi-Scale and Pyramid Network Based Models
     5.  R-CNN Based Models for Instance Segmentation
@@ -92,13 +100,13 @@
     11.  Other Models
 
 ## 何をどう使ったのか
--   
+-
 
 ## 主張の有効性の検証方法
-- 
+-
 
 ## 批評
-- 
+-
 
 ## 次に読むべき論文
-- 
+-
