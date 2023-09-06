@@ -90,6 +90,11 @@
             - cons: アルゴリズムによっては反復して学習させないとダメだよ！計算が重いよ！
               - [意見] ぶっちゃけ2023年現在これ系のモデルは流行ってないように感じるよ
     3.  Encoder-Decoder based Models
+        - 画像を特徴マップにするエンコーダーと特徴マップから画像を復元するデコーダーで構成されるアーキテクチャ
+            - ポピュラーな手法で、DLベースのセグメンテーション手法のほとんどは何らかのエンコーダーデコーダーモデルが使われている
+        - エンコーダーデコーダーの層の間（高解像度から低解像度）を直接接続することで、解像度を超えて情報をやりとりし、高解像度な表現を維持する方法が有名
+          - HRNetとかSegNetとかU-Netとか
+          - 医学系・生物医学系の画像によく使われるイメージ
     4.  Multi-Scale and Pyramid Network Based Models
     5.  R-CNN Based Models for Instance Segmentation
     6.  Dilated Convolutional Models and DeepLab Family
