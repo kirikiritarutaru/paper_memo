@@ -96,7 +96,14 @@
           - HRNetとかSegNetとかU-Netとか
           - 医学系・生物医学系の画像によく使われるイメージ
     4.  Multi-Scale and Pyramid Network Based Models
+        - 特徴ピラミッドネットワーク（FPN）
+          - 物体検知のために開発されたモデルだが、セグメンテーションにも応用された
+          - 低解像度と高解像度の特徴を統合するために、ボトムアップ経路・トップダウン経路・横方向の接続で構成される
     5.  R-CNN Based Models for Instance Segmentation
+        - 領域畳み込みネットワーク（R-CNN）とその拡張（Fast R-CNN, Faster R-CNN, Masked-RCNN）
+          - 領域提案ネットワーク（RPN）を使って、関心領域を抽出
+          - そのあとのPool層で関心領域から特徴量を計算し、バウンディングボックスの座標とオブジェクトのクラスを推測
+        - R-CNNの拡張のいくつかは、*インスタンスセグメンテーション*によく使われてきたし、後続の多くのインスタンスセグメンテーションモデルがR-CNNに基づいて開発されている
     6.  Dilated Convolutional Models and DeepLab Family
     7.  Recurrent Nerral Network Based Models
     8.  Attention-Based Models
@@ -111,7 +118,10 @@
 -
 
 ## 批評
--
+- ぶっちゃけまとめる軸に不満
+  - いまさらCNNとかエンコーダーデコーダーの説明とか、DLベースのセグメンテーションについてのサーベイを読みたいと思っている人には必要ないでしょ
+- アーキテクチャの違いまとめるなら、セグメンテーションの精度とか処理速度の観点をまとめてほしい
+  - 応用志向の人カモン～～～～
 
 ## 次に読むべき論文
 -
