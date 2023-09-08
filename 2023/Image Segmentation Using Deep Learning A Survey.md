@@ -105,6 +105,15 @@
           - そのあとのPool層で関心領域から特徴量を計算し、バウンディングボックスの座標とオブジェクトのクラスを推測
         - R-CNNの拡張のいくつかは、*インスタンスセグメンテーション*によく使われてきたし、後続の多くのインスタンスセグメンテーションモデルがR-CNNに基づいて開発されている
     6.  Dilated Convolutional Models and DeepLab Family
+        - 拡張畳み込み：畳み込み層にもうひとつのパラメータ、拡張率を導入した層
+          - 信号 $x(i)$ の拡張畳み込みは $y_i=\sum^K_{k=1} x[i+rk]w[k]$ と定義される
+            - ここで $r$ は、カーネル $w$ の重み間の感覚を定義する拡張率
+        - 拡張畳み込みは、リアルタイムのセグメンテーション分野で人気
+          - [意見] 知らんかった…ここを知ることができただけでもうけた
+        - ASPP(Atrous Spatial Pyramid Pooling)
+          - 複数スケールでロバストにオブジェクトをセグメント化できる
+          - 入力される畳み込み特徴層を複数のサンプリングレートのフィルターでプローブすることで、複数のスケールで画像コンテキストだけでなくオブジェクトもキャプチャする
+        - DeepLab シリーズを要チェック
     7.  Recurrent Nerral Network Based Models
     8.  Attention-Based Models
     9.  Generative Models and Adversarial Training
