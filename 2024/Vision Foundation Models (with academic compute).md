@@ -2,7 +2,7 @@
 
 ## 論文について (掲載ジャーナルなど)
 
-- ECCV2024 自己教師あり学習のworkshopでのYuki M. Asano先生の発表資料
+- [ECCV2024 自己教師あり学習のworkshopでのYuki M. Asano先生の発表資料](https://sslwin.org/assets/slides/ECCV%202024%20SSLWIN%20Yuki%20Asano.pdf)
 
 ## 概要
 
