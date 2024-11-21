@@ -23,7 +23,7 @@
     - 通称：PaNeCo, NeCo
     - 同じオブジェクトのパッチから抽出された特徴は、同じオブジェクトの別のパッチから抽出された特徴と近くなるように制約をかけよう
   - [Time Does Tell: Self-Supervised Time-Tuning of Dense Image Representations](https://arxiv.org/pdf/2308.11796)
-    - 通称：Timetuning
+    - 通称：Time-Tuning
     - 動画からViTを自己教師あり学習しよう。時間的な一貫性を保つように制約をかけよう
   - [Is ImageNet worth 1 video? Learning strong image encoders from 1 long unlabelled video](https://arxiv.org/pdf/2310.08584)
     - 通称：Dora
@@ -35,7 +35,7 @@
   - めちゃ強いDINOやDINOv2Rモデルよりよくできる
   - in-context セマンティックセグメンテーションでめちゃ改善できた
 
-- Timetuningのいいところ
+- Time-Tuningのいいところ
 
   - 動画は良質な教師信号たり得る
   - フレーム単位の時間不変性ではなく、パッチレベルの不変性が良さげ
@@ -58,7 +58,7 @@
   - NeCO完成
   - 単一の画像だけじゃなく動画から特徴量を抽出すればいいんじゃね？
   - 時系列方向の一貫性を保ってほしいんだけど…制約をかけよう
-  - Timetuning完成
+  - Time-Tuning完成
   - なんぼ自己教師あり学習っていっても、無限に計算資源やデータが手元にあるわけちゃうし…
   - 筋の良いデータがあれば、特徴量抽出器ってつくれるんちゃうか？やってみよ
   - 高解像度の歩行動画取って、特徴量抽出器つくりました！性能十分
@@ -66,9 +66,40 @@
 
 ## 問題設定と解決したこと
 
+### NeCo
+
+- Patch Neighbor Consistency
+  - 目標は、**与えられた入力に対して、同じオブジェクトを表すパッチが類似した特徴を示し、異なるオブジェクトを表すパッチが異なる特徴を示す特徴空間をつくること！**
+
+### Time-Tuning
+
+- 目標は、**動画から抽出される特徴量時系列方向の一貫性を保っていること**
+
+### Dora
+
+- 目標は、**Post-Pretrainingに適した筋のいい動画とは何かを知ること**
+
 ## 何をどう使ったのか
 
--
+### NeCo
+
+<img src="./figures/neco fig1.png" width=50%>
+
+- キーとなる要素3つ
+  1. Feature Extraction and Alignment
+  2. Pairwise Distance Computation
+  3. Differentiable Sorting of Distances
+     - あるオブジェクトのパッチから抽出した特徴量が、同じオブジェクトの別のパッチから抽出した特徴量と近くなるように「微分付きソート」をする
+  4. Training Loss
+     - 抽出される特徴量が近くなるように損失を作る
+
+### Time-Tuning
+
+<img src="./figures/timetuning_overview.png" width=50%>
+
+### Dora
+
+<img src="./figures/dora_overview.png" width=50%>
 
 ## 主張の有効性の検証方法
 
